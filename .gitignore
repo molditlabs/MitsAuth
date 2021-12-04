@@ -5,3 +5,5 @@
 /.vs
 /src/Mits.Auth/bin
 /src/Mits.Auth/obj
+/src/Auth.Level01/bin/Debug/net5.0
+/src/Auth.Level01/obj
