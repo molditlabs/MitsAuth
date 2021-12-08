@@ -8,6 +8,12 @@ namespace Auth.Level01.Models
 {
     public class SignupUserModel
     {
+        [Required(ErrorMessage = "Please enter your First name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "Please enter your Last name")]
+        public string LastName { get; set; }
+
         [Required(ErrorMessage = "Please enter your Username")]
         [Display(Name = "Username")]
         public string Username { get; set; }

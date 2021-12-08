@@ -1,4 +1,5 @@
 using Auth.Level01.Data.Contexts;
+using Auth.Level01.Models;
 using Auth.Level01.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,7 +38,7 @@ namespace Auth.Level01
             //            options.SignIn.RequireConfirmedAccount = false;
             //        })
             //        .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 
