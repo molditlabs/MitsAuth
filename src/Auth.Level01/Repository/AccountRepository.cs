@@ -35,5 +35,10 @@ namespace Auth.Level01.Repository
             var result = await _signInManager.PasswordSignInAsync(userModel.Username, userModel.Password, userModel.RemeberMe, false);
             return result;
         }
+
+        public async Task SignoutAsync()
+        {
+            await _signInManager.SignOutAsync();
+        }
     }
 }

@@ -8,5 +8,6 @@ namespace Auth.Level01.Repository
     {
         Task<IdentityResult> CreateUserAsync(SignupUserModel userModel);
         Task<SignInResult> PasswordSigninAsync(SigninUserModel userModel);
+        Task SignoutAsync();
     }
 }

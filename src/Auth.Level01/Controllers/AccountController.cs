@@ -69,5 +69,12 @@ namespace Auth.Level01.Controllers
             }
             return View(userModel);
         }
+
+        [Route("signout")]
+        public async Task<IActionResult> Signout()
+        {
+            await _accountRepository.SignoutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
