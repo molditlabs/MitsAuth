@@ -55,13 +55,17 @@ namespace Auth.Level01.Controllers
 
         [Route("signin")]
         [HttpPost]
-        public async Task<IActionResult> Signin(SigninUserModel userModel)
+        public async Task<IActionResult> Signin(SigninUserModel userModel, string returnUrl)
         {
             if (ModelState.IsValid)
             {
                 var result = await _accountRepository.PasswordSigninAsync(userModel);
                 if (result.Succeeded)
                 {
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
 
