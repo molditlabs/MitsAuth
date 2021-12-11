@@ -42,8 +42,43 @@ namespace Auth.Level01.Controllers
                 }
 
                 ModelState.Clear();
+                return View();
             }
+            return View(userModel);
+        }
+
+        [Route("signin")]
+        public IActionResult Signin()
+        {
             return View();
+        }
+
+        [Route("signin")]
+        [HttpPost]
+        public async Task<IActionResult> Signin(SigninUserModel userModel, string returnUrl)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountRepository.PasswordSigninAsync(userModel);
+                if (result.Succeeded)
+                {
+                    if (!string.IsNullOrEmpty(returnUrl))
+                    {
+                        return LocalRedirect(returnUrl);
+                    }
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Invalid Credentials");
+            }
+            return View(userModel);
+        }
+
+        [Route("signout")]
+        public async Task<IActionResult> Signout()
+        {
+            await _accountRepository.SignoutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }
