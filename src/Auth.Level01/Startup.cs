@@ -1,4 +1,6 @@
 using Auth.Level01.Data.Contexts;
+using Auth.Level01.Models;
+using Auth.Level01.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -30,10 +32,13 @@ namespace Auth.Level01
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
-                    {
-                        options.SignIn.RequireConfirmedAccount = false;
-                    })
+            // Configure Identity to work in Database
+            //services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            //        {
+            //            options.SignIn.RequireConfirmedAccount = false;
+            //        })
+            //        .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                     .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.Configure<IdentityOptions>(options =>
@@ -47,28 +52,30 @@ namespace Auth.Level01
                 options.Password.RequiredUniqueChars = 1;
 
                 // Lockout settings.
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                options.Lockout.MaxFailedAccessAttempts = 5;
-                options.Lockout.AllowedForNewUsers = true;
+                //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                //options.Lockout.MaxFailedAccessAttempts = 5;
+                //options.Lockout.AllowedForNewUsers = true;
 
                 // User settings.
-                options.User.AllowedUserNameCharacters =
-                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-                options.User.RequireUniqueEmail = false;
+                //options.User.AllowedUserNameCharacters =
+                //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                //options.User.RequireUniqueEmail = false;
             });
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                // Cookie settings
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    // Cookie settings
+            //    options.Cookie.HttpOnly = true;
+            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Users/Login";
-                options.AccessDeniedPath = "/Users/AccessDenied";
-                options.SlidingExpiration = true;
-            });
+            //    options.LoginPath = "/Users/Login";
+            //    options.AccessDeniedPath = "/Users/AccessDenied";
+            //    options.SlidingExpiration = true;
+            //});
 
             services.AddControllersWithViews();
+
+            services.AddScoped<IAccountRepository, AccountRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,6 +96,9 @@ namespace Auth.Level01
 
             app.UseRouting();
 
+            // Enable authentication in the application
+            app.UseAuthentication();
+            // Enable authorization in the application
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
