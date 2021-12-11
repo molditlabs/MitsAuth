@@ -62,16 +62,17 @@ namespace Auth.Level01
                 //options.User.RequireUniqueEmail = false;
             });
 
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    // Cookie settings
-            //    options.Cookie.HttpOnly = true;
-            //    options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+            services.ConfigureApplicationCookie(options =>
+            {
+                // Cookie settings
+                options.LoginPath = Configuration["Application:LoginPath"];
+                //options.Cookie.HttpOnly = true;
+                //options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-            //    options.LoginPath = "/Users/Login";
-            //    options.AccessDeniedPath = "/Users/AccessDenied";
-            //    options.SlidingExpiration = true;
-            //});
+                //options.LoginPath = "/Users/Login";
+                //options.AccessDeniedPath = "/Users/AccessDenied";
+                //options.SlidingExpiration = true;
+            });
 
             services.AddControllersWithViews();
 
