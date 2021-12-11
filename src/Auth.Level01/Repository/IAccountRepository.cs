@@ -7,5 +7,6 @@ namespace Auth.Level01.Repository
     public interface IAccountRepository
     {
         Task<IdentityResult> CreateUserAsync(SignupUserModel userModel);
+        Task<SignInResult> PasswordSigninAsync(SigninUserModel userModel);
     }
 }

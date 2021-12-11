@@ -42,8 +42,32 @@ namespace Auth.Level01.Controllers
                 }
 
                 ModelState.Clear();
+                return View();
             }
+            return View(userModel);
+        }
+
+        [Route("signin")]
+        public IActionResult Signin()
+        {
             return View();
+        }
+
+        [Route("signin")]
+        [HttpPost]
+        public async Task<IActionResult> Signin(SigninUserModel userModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _accountRepository.PasswordSigninAsync(userModel);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+                ModelState.AddModelError("", "Invalid Credentials");
+            }
+            return View(userModel);
         }
     }
 }

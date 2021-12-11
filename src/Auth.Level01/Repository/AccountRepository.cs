@@ -10,10 +10,12 @@ namespace Auth.Level01.Repository
     public class AccountRepository : IAccountRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountRepository(UserManager<ApplicationUser> userManager)
+        public AccountRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         public async Task<IdentityResult> CreateUserAsync(SignupUserModel userModel)
         {
@@ -25,6 +27,12 @@ namespace Auth.Level01.Repository
             };
 
             var result = await _userManager.CreateAsync(user, userModel.Password);
+            return result;
+        }
+
+        public async Task<SignInResult> PasswordSigninAsync(SigninUserModel userModel)
+        {
+            var result = await _signInManager.PasswordSignInAsync(userModel.Username, userModel.Password, userModel.RemeberMe, false);
             return result;
         }
     }
