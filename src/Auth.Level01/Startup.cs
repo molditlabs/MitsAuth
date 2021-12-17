@@ -1,4 +1,5 @@
 using Auth.Level01.Data.Contexts;
+using Auth.Level01.Helpers;
 using Auth.Level01.Models;
 using Auth.Level01.Repository;
 using Microsoft.AspNetCore.Builder;
@@ -77,6 +78,9 @@ namespace Auth.Level01
             services.AddControllersWithViews();
 
             services.AddScoped<IAccountRepository, AccountRepository>();
+
+            // Configure Claims
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
